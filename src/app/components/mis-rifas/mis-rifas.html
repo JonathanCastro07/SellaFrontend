@@ -1,0 +1,36 @@
+<div class="contenedor">
+  <div class="encabezado">
+    <h2>Mis rifas</h2>
+    <div class="acciones-header">
+      <a routerLink="/organizador/crear" class="boton-crear">+ Nueva rifa</a>
+      <button (click)="cerrarSesion()" class="boton-salir">Cerrar sesión</button>
+    </div>
+  </div>
+
+  @if (cargando()) {
+    <p>Cargando...</p>
+  } @else if (errorMensaje()) {
+    <p class="error">{{ errorMensaje() }}</p>
+  } @else if (rifas().length === 0) {
+    <div class="vacio">
+      <p>Todavía no has creado ninguna rifa.</p>
+      <a routerLink="/organizador/crear" class="boton-crear">Crear tu primera rifa</a>
+    </div>
+  } @else {
+    <div class="lista">
+      @for (rifa of rifas(); track rifa.id) {
+        <a [routerLink]="['/organizador/rifas', rifa.id]" class="tarjeta">
+          <div class="tarjeta-info">
+            <h3>{{ rifa.nombre }}</h3>
+            <p class="detalle">
+              {{ rifa.loteriaRef }} · ${{ rifa.precio | number }} por número
+            </p>
+          </div>
+          <span class="badge" [class.activa]="rifa.estado === 'ACTIVA'">
+            {{ rifa.estado }}
+          </span>
+        </a>
+      }
+    </div>
+  }
+</div>

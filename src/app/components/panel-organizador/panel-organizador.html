@@ -1,0 +1,105 @@
+<div class="contenedor">
+  @if (cargando()) {
+    <p>Cargando...</p>
+  } @else if (errorMensaje() && !rifa()) {
+    <p class="error">{{ errorMensaje() }}</p>
+  } @else if (rifa(); as r) {
+    <div class="encabezado">
+      <div>
+        <a routerLink="/organizador/mis-rifas" class="volver">← Volver a mis rifas</a>
+        <h2>{{ r.nombre }}</h2>
+        <p class="detalle">{{ r.loteriaRef }} · ${{ r.precio | number }} por número · {{ r.estado }}</p>
+
+        @if (r.estado === 'CERRADA') {
+          <button (click)="marcarSorteada()" [disabled]="marcandoSorteada()" class="boton-sorteada">
+            {{ marcandoSorteada() ? 'Guardando...' : 'Marcar como sorteada' }}
+          </button>
+        }
+        <a [routerLink]="['/organizador/rifas', r.id, 'contactos']" class="link-contactos">
+          Ver contactos de compradores →
+        </a>
+      </div>
+            <div class="acciones-encabezado">
+        <button (click)="copiarLink()" class="boton-copiar-pequeno">
+          {{ copiado() ? '✓ Copiado' : '📋 Copiar link' }}
+        </button>
+        <a [routerLink]="['/rifas', r.id]" target="_blank" class="link-publico">Ver tablero público</a>
+      </div>
+    </div>
+
+    @if (errorMensaje()) {
+      <p class="error">{{ errorMensaje() }}</p>
+    }
+
+    <div class="stats">
+      <div class="stat">
+        <span class="num">{{ r.numeros.length }}</span>
+        <span class="label">Total</span>
+      </div>
+      <div class="stat">
+        <span class="num">{{ pendientes().length }}</span>
+        <span class="label">Pendientes</span>
+      </div>
+      <div class="stat">
+        <span class="num">{{ pagados().length }}</span>
+        <span class="label">Pagados</span>
+      </div>
+    </div>
+
+    <h3>Pagos pendientes de confirmar</h3>
+
+    @if (pendientes().length === 0) {
+      <p class="detalle">No hay pagos pendientes por ahora.</p>
+    } @else {
+      <div class="lista-contactos">
+        @for (numero of pendientes(); track numero.numero) {
+          <div class="fila pendiente-fila">
+            <div class="info-numero">
+              <span class="numero-badge">{{ numero.numero }}</span>
+              @if (numero.comprador; as c) {
+                <div class="contacto">
+                  <span class="nombre">{{ c.nombre }}</span>
+                  <a [href]="'https://wa.me/57' + c.celular" target="_blank" class="celular">
+                    📱 {{ c.celular }}
+                  </a>
+                </div>
+              }
+            </div>
+            <div class="acciones">
+              <button
+                (click)="confirmar(numero.numero)"
+                [disabled]="procesando() === numero.numero"
+                class="confirmar"
+              >
+                {{ procesando() === numero.numero ? '...' : 'Confirmar' }}
+              </button>
+              <button
+                (click)="rechazar(numero.numero)"
+                [disabled]="procesando() === numero.numero"
+                class="rechazar"
+              >
+                {{ procesando() === numero.numero ? '...' : 'Rechazar' }}
+              </button>
+            </div>
+          </div>
+        }
+      </div>
+    }
+
+
+
+    <h3>Tablero completo</h3>
+    <div class="grid">
+      @for (numero of r.numeros; track numero.numero) {
+        <div
+          class="ticket"
+          [class.disponible]="numero.estado === 'DISPONIBLE'"
+          [class.pendiente]="numero.estado === 'PENDIENTE'"
+          [class.pagado]="numero.estado === 'PAGADO'"
+        >
+          {{ numero.numero }}
+        </div>
+      }
+    </div>
+  }
+</div>

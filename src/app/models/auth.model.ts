@@ -1,0 +1,15 @@
+// models/auth.model.ts
+export interface RegisterRequest {
+  nombre: string;
+  email: string;
+  password: string;
+}
+
+export interface LoginRequest {
+  email: string;
+  password: string;
+}
+
+export interface AuthResponse {
+  token: string;
+}

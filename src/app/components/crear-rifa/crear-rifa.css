@@ -1,0 +1,85 @@
+/* components/crear-rifa/crear-rifa.css */
+.contenedor {
+  max-width: 420px;
+  margin: 40px auto;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 13px;
+}
+
+input, select, button {
+  padding: 10px;
+  font-size: 14px;
+}
+
+.error {
+  color: #c0392b;
+  font-size: 13px;
+}
+.exito-creacion {
+  text-align: center;
+}
+
+.detalle {
+  color: #666;
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+
+.link-box {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.link-box input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 13px;
+  color: #333;
+  background: #f9f9f9;
+}
+
+.boton-copiar {
+  background: #2980b9;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.boton-continuar {
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.volver {
+  display: inline-block;
+  font-size: 12px;
+  color: #666;
+  text-decoration: none;
+  margin-bottom: 12px;
+}
+
+.volver:hover {
+  color: #2980b9;
+}

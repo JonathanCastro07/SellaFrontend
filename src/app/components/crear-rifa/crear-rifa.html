@@ -1,0 +1,66 @@
+<!-- components/crear-rifa/crear-rifa.html -->
+<div class="contenedor">
+  @if (!rifaCreada()) {
+      <a routerLink="/organizador/mis-rifas" class="volver">← Volver a mis rifas</a>
+    <h2>Crear nueva rifa</h2>
+
+    @if (errorMensaje()) {
+      <p class="error">{{ errorMensaje() }}</p>
+    }
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <label>
+        Nombre de la rifa
+        <input type="text" formControlName="nombre" />
+      </label>
+
+      <label>
+        Cifras del número
+        <select formControlName="digitos">
+          <option [value]="2">2 (00-99)</option>
+          <option [value]="3">3 (000-999)</option>
+        </select>
+      </label>
+
+      <label>
+        Precio por número (COP)
+        <input type="number" formControlName="precio" />
+      </label>
+
+      <label>
+        Lotería / referencia del sorteo
+        <input type="text" formControlName="loteriaRef" />
+      </label>
+
+      <label>
+        Fecha del sorteo
+        <input type="date" formControlName="fechaSorteo" />
+      </label>
+
+      <label>
+        Cuenta para recibir pagos
+        <input type="text" formControlName="cuentaPago" placeholder="Ej: Nequi 300 123 4567" />
+      </label>
+
+      <button type="submit" [disabled]="form.invalid || cargando()">
+        {{ cargando() ? 'Creando...' : 'Crear rifa' }}
+      </button>
+    </form>
+  } @else {
+    <div class="exito-creacion">
+      <h2>🎉 ¡Rifa creada!</h2>
+      <p class="detalle">Comparte este link con las personas para que compren sus números:</p>
+
+      <div class="link-box">
+        <input type="text" [value]="linkPublico()" readonly />
+        <button (click)="copiarLink()" class="boton-copiar">
+          {{ copiado() ? '✓ Copiado' : 'Copiar' }}
+        </button>
+      </div>
+
+      <button (click)="irAlPanel()" class="boton-continuar">
+        Ir al panel de esta rifa →
+      </button>
+    </div>
+  }
+</div>

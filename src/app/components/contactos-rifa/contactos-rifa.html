@@ -1,0 +1,32 @@
+<div class="contenedor">
+  <a [routerLink]="['/organizador/rifas', rifaId]" class="volver">← Volver al panel</a>
+
+  @if (cargando()) {
+    <p>Cargando...</p>
+  } @else if (errorMensaje()) {
+    <p class="error">{{ errorMensaje() }}</p>
+  } @else if (rifa(); as r) {
+    <h2>Contactos — {{ r.nombre }}</h2>
+    <p class="detalle">Compradores con pago confirmado, para contactar al ganador el día del sorteo.</p>
+
+    @if (pagados().length === 0) {
+      <p class="vacio">Todavía no hay números pagados en esta rifa.</p>
+    } @else {
+      <div class="lista">
+        @for (numero of pagados(); track numero.numero) {
+          <div class="fila">
+            <span class="numero-badge">{{ numero.numero }}</span>
+            @if (numero.comprador; as c) {
+              <div class="contacto">
+                <span class="nombre">{{ c.nombre }}</span>
+                <a [href]="'https://wa.me/57' + c.celular" target="_blank" class="celular">
+                  📱 {{ c.celular }}
+                </a>
+              </div>
+            }
+          </div>
+        }
+      </div>
+    }
+  }
+</div>

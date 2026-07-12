@@ -1,0 +1,79 @@
+<!-- components/tablero-rifa/tablero-rifa.html -->
+<div class="contenedor">
+  @if (cargando()) {
+    <p>Cargando...</p>
+  } @else if (errorMensaje() && !rifa()) {
+    <p class="error">{{ errorMensaje() }}</p>
+  } @else if (rifa(); as r) {
+    <h2>{{ r.nombre }}</h2>
+    @if (r.estado === 'SORTEADA' && r.numeroGanador) {
+      <div class="banner-ganador">
+        🏆 ¡Número ganador: <strong>{{ r.numeroGanador }}</strong>!
+      </div>
+        }
+    <p class="detalle">{{ r.loteriaRef }} · ${{ r.precio | number }} por número</p>
+    <p class="cuenta-pago">💸 Paga a: <strong>{{ r.cuentaPago }}</strong></p>
+
+    <div class="grid">
+      @for (numero of r.numeros; track numero.numero) {
+        <button
+          class="ticket"
+          [class.disponible]="numero.estado === 'DISPONIBLE'"
+          [class.pendiente]="numero.estado === 'PENDIENTE'"
+          [class.pagado]="numero.estado === 'PAGADO'"
+          [disabled]="numero.estado !== 'DISPONIBLE'"
+          (click)="seleccionar(numero)"
+        >
+          {{ numero.numero }}
+        </button>
+      }
+    </div>
+  }
+
+  @if (comprobanteMensaje()) {
+    <p class="exito">{{ comprobanteMensaje() }}</p>
+  }
+
+  @if (numeroSeleccionado(); as num) {
+    <div class="modal-fondo" (click)="cerrarModal()">
+      <div class="modal" (click)="$event.stopPropagation()">
+        <h3>Apartar número {{ num }}</h3>
+        <p class="cuenta-pago-modal">Envía ${{ rifa()?.precio | number }} a: <strong>{{ rifa()?.cuentaPago }}</strong></p>
+
+        @if (errorMensaje()) {
+          <p class="error">{{ errorMensaje() }}</p>
+        }
+
+        <form [formGroup]="form" (ngSubmit)="onApartar()">
+          <input type="text" formControlName="nombre" placeholder="Tu nombre" />
+          <input type="text" formControlName="celular" placeholder="Tu celular" />
+          <input type="email" formControlName="email" placeholder="Tu correo (para avisarte cuando se confirme)" />
+          <button type="submit" [disabled]="form.invalid || apartando()">
+            {{ apartando() ? 'Apartando...' : 'Confirmar' }}
+          </button>
+        </form>
+      </div>
+    </div>
+  }
+
+  @if (numeroParaComprobante(); as num) {
+    <div class="modal-fondo">
+      <div class="modal">
+        <h3>Sube tu comprobante — número {{ num }}</h3>
+        <p class="detalle">Puedes hacerlo ahora o más tarde volviendo a esta rifa.</p>
+
+        <input type="file" accept="image/*,.pdf" (change)="onArchivoSeleccionado($event)" />
+
+        <div class="acciones">
+          <button (click)="omitirComprobante()" class="secundario">Más tarde</button>
+          <button
+            (click)="subirComprobante()"
+            [disabled]="!archivoSeleccionado() || subiendoComprobante()"
+          >
+            {{ subiendoComprobante() ? 'Subiendo...' : 'Subir comprobante' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+</div>

@@ -1,0 +1,97 @@
+.contenedor {
+  max-width: 640px;
+  margin: 40px auto;
+  padding: 0 16px;
+}
+
+.encabezado {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.acciones-header {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.boton-crear {
+  background: #2980b9;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  text-decoration: none;
+}
+
+.boton-salir {
+  background: none;
+  border: 1px solid #ccc;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.error {
+  color: #c0392b;
+  font-size: 13px;
+}
+
+.vacio {
+  text-align: center;
+  padding: 40px 0;
+  color: #666;
+}
+
+.vacio .boton-crear {
+  display: inline-block;
+  margin-top: 12px;
+}
+
+.lista {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.tarjeta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 16px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.tarjeta:hover {
+  border-color: #2980b9;
+}
+
+.tarjeta-info h3 {
+  margin: 0 0 4px 0;
+  font-size: 15px;
+}
+
+.detalle {
+  color: #666;
+  font-size: 13px;
+  margin: 0;
+}
+
+.badge {
+  font-size: 11px;
+  padding: 4px 8px;
+  border-radius: 12px;
+  background: #eee;
+  color: #666;
+}
+
+.badge.activa {
+  background: #d4edda;
+  color: #28a745;
+}
