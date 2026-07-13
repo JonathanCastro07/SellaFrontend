@@ -5,12 +5,14 @@ import { Observable } from 'rxjs';
 import { Rifa, CrearRifaRequest } from '../models/rifa.model';
 import { ApartarNumeroRequest } from '../models/numero.model';
 import { RifaOrganizador } from '../models/rifa-organizador.model';
+import { environment } from '../../environments/environment';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class RifaService {
-  private readonly API_URL = 'http://localhost:8080/api/rifas';
+private readonly API_URL = `${environment.apiUrl}/rifas`;
 
   constructor(private http: HttpClient) {}
 
