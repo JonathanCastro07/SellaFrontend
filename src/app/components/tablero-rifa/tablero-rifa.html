@@ -16,16 +16,16 @@
 
     <div class="grid">
       @for (numero of r.numeros; track numero.numero) {
-        <button
-          class="ticket"
-          [class.disponible]="numero.estado === 'DISPONIBLE'"
-          [class.pendiente]="numero.estado === 'PENDIENTE'"
-          [class.pagado]="numero.estado === 'PAGADO'"
-          [disabled]="numero.estado !== 'DISPONIBLE'"
-          (click)="seleccionar(numero)"
-        >
-          {{ numero.numero }}
-        </button>
+    <button
+      class="ticket"
+      [class.disponible]="numero.estado === 'DISPONIBLE'"
+      [class.pendiente]="numero.estado === 'PENDIENTE'"
+      [class.pagado]="numero.estado === 'PAGADO'"
+      [disabled]="numero.estado === 'PAGADO'"
+      (click)="onClickTicket(numero)"
+    >
+      {{ numero.numero }}
+    </button>
       }
     </div>
   }

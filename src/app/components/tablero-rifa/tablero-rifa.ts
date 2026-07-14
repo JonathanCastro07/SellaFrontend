@@ -122,4 +122,12 @@ omitirComprobante(): void {
     this.numeroParaComprobante.set(null);
   }
 }
+
+onClickTicket(numero: Numero): void {
+  if (numero.estado === 'DISPONIBLE') {
+    this.seleccionar(numero);
+  } else if (numero.estado === 'PENDIENTE') {
+    this.numeroParaComprobante.set(numero.numero);
+  }
+}
 }
