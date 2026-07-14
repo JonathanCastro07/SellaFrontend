@@ -1,6 +1,7 @@
 export interface Comprador {
   nombre: string;
   celular: string;
+  urlComprobante: string | null;
 }
 
 export interface NumeroOrganizador {
