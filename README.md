@@ -1,59 +1,68 @@
-# SellaFrontend
+# Sella — Frontend
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.8.
+Angular frontend for **Sella**, a platform for organizing and managing online raffles ("rifas"). Organizers create raffles and track buyers and payments; buyers pick a number, upload a payment receipt, and follow its status.
 
-## Development server
+Live app: **[sella-frontend.vercel.app](https://sella-frontend.vercel.app)**
+Backend repo: [SellaBackend](https://github.com/JonathanCastro07/SellaBackend) (Spring Boot API, deployed on Render)
 
-To start a local development server, run:
+## Features
+
+- **JWT-based authentication** — login persists the token and attaches it to every API request via an HTTP interceptor
+- **Route guards** protecting organizer-only pages
+- **Organizer dashboard**: create raffles, view all owned raffles, review buyers and uploaded payment receipts per raffle, manage contacts
+- **Public raffle board**: buyers view available numbers and reserve one without needing an account
+- Fully decoupled from the backend via a configurable `apiUrl` per environment
+
+## Tech Stack
+
+Angular 21 · TypeScript · RxJS · Vitest (unit tests) · Vercel (hosting)
+
+## Project Structure
+
+```
+src/app/
+├── components/
+│   ├── login/                 # Organizer login
+│   ├── crear-rifa/            # Create a new raffle
+│   ├── mis-rifas/             # Organizer's raffle list
+│   ├── panel-organizador/     # Organizer view: buyers, receipts, payment status
+│   ├── tablero-rifa/          # Public board: pick and reserve a number
+│   └── contactos-rifa/        # Buyer contact management
+├── services/
+│   ├── auth.ts                # Login/session handling
+│   └── rifa.ts                # Raffle/number API calls
+├── guards/
+│   └── auth-guard.ts          # Protects organizer routes
+├── interceptors/
+│   └── jwt-interceptor.ts     # Attaches the JWT to outgoing requests
+└── models/                    # TypeScript interfaces mirroring the API DTOs
+```
+
+## Running locally
+
+### Prerequisites
+
+- Node.js 18+
+- The [SellaBackend](https://github.com/JonathanCastro07/SellaBackend) API running locally (or point `environment.ts` at a deployed instance)
+
+### Setup
 
 ```bash
+npm install
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+The app runs at `http://localhost:4200` and expects the API at `http://localhost:8080/api` (see `src/environments/environment.ts`).
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
+### Build for production
 
 ```bash
 ng build
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Production builds read the API URL from `src/environments/environment.prod.ts`.
 
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+### Run tests
 
 ```bash
 ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
